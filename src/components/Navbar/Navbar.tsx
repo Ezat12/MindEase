@@ -1,22 +1,20 @@
-import { useState } from "react";
 import { Home, Library, Settings, Siren, Stethoscope } from "lucide-react";
+import { Link, NavLink } from "react-router-dom";
 import logoImage from "../../assets/logo/image.png";
 
 const links = [
-  { id: "home", label: "Home", href: "#", Icon: Home },
-  { id: "library", label: "Library", href: "#/library", Icon: Library },
-  { id: "doctors", label: "Doctors", href: "#/doctors", Icon: Stethoscope },
-  { id: "settings", label: "Settings", href: "#/settings", Icon: Settings },
+  { id: "home", label: "Home", to: "/", Icon: Home },
+  { id: "doctors", label: "Doctors", to: "/doctors", Icon: Stethoscope },
+  { id: "library", label: "Library", to: "/library", Icon: Library },
+  { id: "settings", label: "Settings", to: "/settings", Icon: Settings },
 ] as const;
 
 function Navbar() {
-  const [activeId, setActiveId] = useState<string>(links[0].id);
-
   return (
     <header className="border-b border-slate-200/90 bg-white shadow-sm/5">
       <div className="flex flex-wrap items-center justify-between gap-x-6 gap-y-4 p-5">
-        <a
-          href="#"
+        <Link
+          to="/"
           aria-label="MINDECHO — Home"
           className="group flex shrink-0 items-center gap-3.5 rounded-xl outline-none transition-transform duration-200 focus-visible:ring-2 focus-visible:ring-blue-500/45 focus-visible:ring-offset-2 active:scale-[0.99]"
         >
@@ -30,8 +28,10 @@ function Navbar() {
               className="h-full w-full object-contain object-center"
             />
           </span>
-          <span className="text-xl font-bold tracking-tight text-blue-600 sm:text-2xl">MINDECHO</span>
-        </a>
+          <span className="text-xl font-bold tracking-tight text-blue-600 sm:text-2xl">
+            MINDECHO
+          </span>
+        </Link>
 
         <nav
           className="order-last flex w-full min-w-0 justify-center md:order-none md:flex-1 md:justify-center"
@@ -39,22 +39,25 @@ function Navbar() {
         >
           <div className="inline-flex max-w-full items-center gap-1 overflow-x-auto rounded-2xl bg-slate-100/90 p-1.5 ring-1 ring-slate-200/80 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             {links.map((link) => {
-              const isActive = activeId === link.id;
               const Icon = link.Icon;
               return (
-                <a
+                <NavLink
                   key={link.id}
-                  href={link.href}
-                  onClick={() => setActiveId(link.id)}
-                  className={
+                  to={link.to}
+                  end={link.to === "/"}
+                  className={({ isActive }) =>
                     isActive
                       ? "flex shrink-0 items-center gap-2 rounded-xl bg-blue-600/10 px-4 py-2.5 text-sm font-semibold text-blue-700 shadow-sm ring-1 ring-blue-600/15 backdrop-blur-sm transition-all duration-200 outline-none focus-visible:ring-2 focus-visible:ring-blue-500/45 focus-visible:ring-offset-2"
                       : "flex shrink-0 items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium text-gray-600 transition-all duration-200 outline-none hover:bg-white/80 hover:text-gray-900 focus-visible:ring-2 focus-visible:ring-blue-500/35 focus-visible:ring-offset-2"
                   }
                 >
-                  <Icon className="size-4 shrink-0" strokeWidth={2} aria-hidden />
+                  <Icon
+                    className="size-4 shrink-0"
+                    strokeWidth={2}
+                    aria-hidden
+                  />
                   {link.label}
-                </a>
+                </NavLink>
               );
             })}
           </div>

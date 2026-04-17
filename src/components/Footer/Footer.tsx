@@ -3,7 +3,7 @@ import logoImage from "../../assets/logo/image.png";
 
 const applicationLinks = [
   { label: "How it works", href: "#" },
-  { label: "Recommended Doctors", href: "#" },
+  { label: "Recommended Doctors", href: "#/doctors" },
   { label: "Resource Library", href: "#" },
   { label: "Premium Plans", href: "#" },
 ] as const;
