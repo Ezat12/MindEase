@@ -1,29 +1,14 @@
 import { useState } from "react";
 import { Search, Star } from "lucide-react";
 import DoctorCard from "./DoctorCard";
-
-export type Doctor = {
-  id: string;
-  name: string;
-  title: string;
-  about: string;
-  imageUrl: string;
-  rating: number;
-  ratingCount: number;
-  location: string;
-  languages: string[];
-  nextAvailable: string;
-  priceEGP: number;
-  tags: string[];
-  verified?: boolean;
-};
+import type { IDoctor } from "../../types/IDoctor";
 
 type SortKey = "recommended" | "rating_desc" | "reviews_desc" | "price_asc";
 
 type DoctorsListProps = {
-  doctors: Doctor[];
-  onBook?: (doctor: Doctor) => void;
-  onViewProfile?: (doctor: Doctor) => void;
+  doctors: IDoctor[];
+  onBook?: (doctor: IDoctor) => void;
+  onViewProfile?: (doctor: IDoctor) => void;
 };
 
 function clampRating(value: number) {
@@ -31,7 +16,7 @@ function clampRating(value: number) {
   return Math.max(0, Math.min(5, value));
 }
 
-function DoctorsList({ doctors }: DoctorsListProps) {
+function DoctorsList({ doctors, onBook, onViewProfile }: DoctorsListProps) {
   const allTags = (() => {
     const set = new Set<string>();
     doctors.forEach((d) => d.tags.forEach((t) => set.add(t)));
@@ -40,7 +25,7 @@ function DoctorsList({ doctors }: DoctorsListProps) {
 
   const specialties = (() => {
     const set = new Set<string>();
-    doctors.forEach((d) => set.add(d.title));
+    doctors.forEach((d) => set.add(d.specialization));
     return [
       "All specialties",
       ...Array.from(set).sort((a, b) => a.localeCompare(b)),
@@ -62,13 +47,13 @@ function DoctorsList({ doctors }: DoctorsListProps) {
   const filtered = doctors.filter((d) => {
     const matchesQuery =
       q.length === 0 ||
-      d.name.toLowerCase().includes(q) ||
-      d.title.toLowerCase().includes(q) ||
-      d.about.toLowerCase().includes(q) ||
+      d.fullName.toLowerCase().includes(q) ||
+      d.specialization.toLowerCase().includes(q) ||
+      d.bio.toLowerCase().includes(q) ||
       d.tags.some((t) => t.toLowerCase().includes(q));
 
     const matchesSpecialty =
-      specialty === "All specialties" ? true : d.title === specialty;
+      specialty === "All specialties" ? true : d.specialization === specialty;
     const matchesRating = d.rating >= min;
     const matchesTag = activeTag ? d.tags.includes(activeTag) : true;
 
@@ -85,7 +70,7 @@ function DoctorsList({ doctors }: DoctorsListProps) {
         return a.priceEGP - b.priceEGP;
       case "recommended":
       default: {
-        const score = (d: Doctor) =>
+        const score = (d: IDoctor) =>
           d.rating * 100 +
           Math.min(d.ratingCount, 500) / 10 +
           (d.verified ? 10 : 0);
@@ -242,8 +227,10 @@ function DoctorsList({ doctors }: DoctorsListProps) {
                 [doctor.id]: !prev[doctor.id],
               }))
             }
-            // onBook={() => onBook?.(doctor)}
-            // onViewProfile={() => onViewProfile?.(doctor)}
+            onBook={onBook ? () => onBook(doctor) : undefined}
+            onViewProfile={
+              onViewProfile ? () => onViewProfile(doctor) : undefined
+            }
           />
         ))}
       </div>
