@@ -76,7 +76,7 @@ function DoctorCard({
           </button>
         </div>
 
-        <p className="line-clamp-3 text-sm leading-relaxed text-slate-600 mt-4">
+        <p className="line-clamp-3 text-sm leading-relaxed text-slate-600 mt-4 h-20 max-h-40 overflow-y-hidden">
           {doctor.bio}
         </p>
 

@@ -12,7 +12,7 @@ function Doctors() {
       <Navbar />
 
       <main className="flex-1">
-        <div className="mx-auto w-full max-w-6xl px-5 py-8 sm:px-6 lg:px-8">
+        <div className="mx-auto w-full max-w-7xl px-5 py-8 sm:px-6 lg:px-8">
           <DoctorsList
             doctors={doctorsData}
             onViewProfile={(doctor) => navigate(`/doctors/${doctor.id}`)}

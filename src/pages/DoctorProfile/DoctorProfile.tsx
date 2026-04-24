@@ -17,7 +17,7 @@ function DoctorProfile() {
       <Navbar />
 
       <main className="flex-1">
-        <div className="mx-auto w-full max-w-6xl px-5 py-8 sm:px-6 lg:px-8">
+        <div className="mx-auto w-full max-w-7xl px-5 py-8 sm:px-6 lg:px-8">
           <Link
             to="/doctors"
             className="mb-5 inline-flex text-sm font-semibold text-blue-700 transition hover:text-blue-800"
