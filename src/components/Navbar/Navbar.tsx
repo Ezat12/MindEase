@@ -1,4 +1,4 @@
-import { Home, Library, Settings, Siren, Stethoscope } from "lucide-react";
+import { Home, Library, Settings, Stethoscope , EggFriedIcon, Siren} from "lucide-react";
 import { Link, NavLink } from "react-router-dom";
 import logoImage from "../../assets/logo/image.png";
 
@@ -6,6 +6,7 @@ const links = [
   { id: "home", label: "Home", to: "/", Icon: Home },
   { id: "doctors", label: "Doctors", to: "/doctors", Icon: Stethoscope },
   { id: "library", label: "Library", to: "/library", Icon: Library },
+  { id: "community", label: "Community", to: "/community", Icon: EggFriedIcon },
   { id: "settings", label: "Settings", to: "/settings", Icon: Settings },
 ] as const;
 
